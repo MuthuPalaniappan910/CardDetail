@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.bank.creditcard.dto.OTPRequestDto;
 import com.bank.creditcard.dto.OTPResponseDto;
 import com.bank.creditcard.util.SendMail;
 
@@ -25,10 +24,10 @@ public class MailServiceImpl implements MailService {
 	}
 	
 	@Override
-	public OTPResponseDto sendOtp(OTPRequestDto OTPRequestDto) {
+	public OTPResponseDto sendOtp(String email) {
 	log.info(":: Enter into LoginController--------::login()");
 	Random rand= new Random();
-	sendEmail(OTPRequestDto.getEmail(), Integer.toString(rand.nextInt(9999)), "OTP");
+	sendEmail(email, Integer.toString(rand.nextInt(9999)), "OTP");
 	OTPResponseDto otpResponseDto = new OTPResponseDto();
 	otpResponseDto.setMessage("Success");
 	otpResponseDto.setStatusCode(HttpStatus.OK.value());
