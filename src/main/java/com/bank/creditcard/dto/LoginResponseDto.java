@@ -11,4 +11,5 @@ public class LoginResponseDto {
 	private Long customerID;
 	private String customerName;
 	private Long creditCardId;
+	private String loginType;
 }
