@@ -20,5 +20,10 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(value = CardException.class)
+	public ResponseEntity<ErrorResponse> handleException(CardException exception) {
+		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
 
 }

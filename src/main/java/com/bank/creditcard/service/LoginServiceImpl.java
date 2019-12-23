@@ -48,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
 		Optional<Card> cardResponse= cardRepository.findByCustomerId(customerResponse.get());
 		if(!cardResponse.isPresent()) {
 			loginResponsedto.setLoginType("shopping");
-			return loginResponsedto;		
+			return loginResponsedto;	
 		}
 	
 		loginResponsedto.setLoginType("credit");
