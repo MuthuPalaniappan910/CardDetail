@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.bank.creditcard.constants.ApplicationConstants;
 import com.bank.creditcard.dto.LoginRequestDto;
 import com.bank.creditcard.dto.LoginResponseDto;
+import com.bank.creditcard.entity.Card;
 import com.bank.creditcard.entity.Customer;
 import com.bank.creditcard.exception.UserException;
+import com.bank.creditcard.repository.CardRepository;
 import com.bank.creditcard.repository.CustomerRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,10 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	CardRepository cardRepository;
+	
 
 	/**
 	 * @author Chethana
@@ -36,11 +42,17 @@ public class LoginServiceImpl implements LoginService {
 			log.error("Exception occured in login() method of LoginServiceImpl");
 			throw new UserException(ApplicationConstants.LOGIN_FAILURE_MSG);
 		}
-		
 		LoginResponseDto loginResponsedto = new LoginResponseDto();
-		loginResponsedto.setCustomerID(customerResponse.get().getCustomerId());
 		loginResponsedto.setCustomerName(customerResponse.get().getFirstName().concat(" ").concat(customerResponse.get().getLastName()));
-		loginResponsedto.setCreditCardId(1000000001L);
+		loginResponsedto.setCustomerID(customerResponse.get().getCustomerId());
+		Optional<Card> cardResponse= cardRepository.findByCustomerId(customerResponse.get());
+		if(!cardResponse.isPresent()) {
+			loginResponsedto.setLoginType("shopping");
+			return loginResponsedto;	
+		}
+	
+		loginResponsedto.setLoginType("credit");
+		loginResponsedto.setCreditCardId(cardResponse.get().getCardNumber());
 		return loginResponsedto;
 	}
 }
