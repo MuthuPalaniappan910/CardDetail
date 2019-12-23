@@ -28,7 +28,13 @@ import com.bank.creditcard.repository.TransactionRepository;
  */
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * @author Muthu 
+ * This class is contains the operations related to credit card
+ *         transactions.Used for adding transaction and getting transaction
+ *         history
+ * 
+ */
 @Service
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {

@@ -19,8 +19,8 @@ import com.bank.creditcard.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Chethana
- * @author Muthu This class is contains the operations related to credit card
+ * @author Muthu 
+ * This class is contains the operations related to credit card
  *         transactions.Used for adding transaction and getting transaction
  *         history
  * 
@@ -49,6 +49,15 @@ public class TransactionController {
 		return transactionService.addTransaction(cardNumber, price);
 	}
 
+	/**
+	 * This method is used to get the monthly transaction summary statement
+	 * 
+	 * @author Chethana
+	 * @param month of data type Integer
+	 * @param year of data type Integer
+	 * @param creditCardId of data type Long
+	 * @return list of Transaction details for a particular month in a given year
+	 */
 	@GetMapping
 	public ResponseEntity<TransactionResponseDto> getMonthlyStatement(@RequestParam int month, @RequestParam int year,
 			@RequestParam Long creditCardId) {
