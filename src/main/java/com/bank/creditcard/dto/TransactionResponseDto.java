@@ -10,6 +10,6 @@ import lombok.Setter;
 public class TransactionResponseDto {
 
 	private String message;
-	private String StatusCode;
+	private Integer StatusCode;
 	private List<TransactionSummary> transactionList;
 }
