@@ -65,12 +65,13 @@ public class CardController {
 	 * @param price
 	 * @return true/false
 	 * @throws DateInvalidException
-	 * @throws InsufficientBalanceException 
+	 * @throws InsufficientBalanceException
 	 */
 	@GetMapping
 	public Boolean cardDetails(@RequestParam Long cardNumber, @RequestParam Integer cvv, @RequestParam Double price)
 			throws DateInvalidException, InsufficientBalanceException {
 		return cardService.getCardDetails(cardNumber, cvv, price);
+
 	}
 
 }
