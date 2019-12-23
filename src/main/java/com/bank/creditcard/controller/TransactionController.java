@@ -34,7 +34,6 @@ public class TransactionController {
 	TransactionService transactionService;
 
 	/**
-	 * *
 	 * 
 	 * @author Muthu
 	 * 
@@ -42,13 +41,12 @@ public class TransactionController {
 	 * 
 	 * @param cardNumber
 	 * @param price
-	 * @return
+	 * @return true/false
 	 */
 	@PostMapping
 	public Boolean addTransaction(@RequestParam Long cardNumber, @RequestParam Double price) {
 		log.info("Adding transaction");
-		Boolean response = transactionService.addTransaction(cardNumber, price);
-		return response;
+		return transactionService.addTransaction(cardNumber, price);
 	}
 
 	@GetMapping

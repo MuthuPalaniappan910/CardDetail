@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bank.creditcard.constants.ApplicationConstants;
 import com.bank.creditcard.entity.Card;
 import com.bank.creditcard.exception.DateInvalidException;
+import com.bank.creditcard.exception.InsufficientBalanceException;
 import com.bank.creditcard.repository.CardRepository;
 
 @Service
@@ -28,9 +29,10 @@ public class CardServiceImpl implements CardService {
 	 * @param price
 	 * @return
 	 * @throws DateInvalidException
+	 * @throws InsufficientBalanceException 
 	 */
 	@Override
-	public Boolean getCardDetails(Long cardNumber, Integer cvv, Double price) throws DateInvalidException {
+	public Boolean getCardDetails(Long cardNumber, Integer cvv, Double price) throws DateInvalidException, InsufficientBalanceException {
 		Optional<Card> card = cardRepository.findByCardNumberAndCvv(cardNumber, cvv);
 		if (card.isPresent()) {
 			LocalDate currentDate = LocalDate.now();
@@ -39,7 +41,7 @@ public class CardServiceImpl implements CardService {
 				throw new DateInvalidException(ApplicationConstants.DATE_INVALIDMESSAGE);
 			}
 			if (price > card.get().getCardBalance()) {
-				throw new DateInvalidException(ApplicationConstants.INSUFFICICENTBALANCE);
+				throw new InsufficientBalanceException(ApplicationConstants.INSUFFICICENTBALANCE);
 			}
 			return ApplicationConstants.TRUE;
 		}
