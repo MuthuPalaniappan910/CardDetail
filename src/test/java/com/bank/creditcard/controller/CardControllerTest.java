@@ -12,10 +12,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
-import com.bank.creditcard.dto.LoginResponseDto;
 import com.bank.creditcard.dto.RegistrationRequestDto;
 import com.bank.creditcard.dto.RegistrationResponseDto;
+import com.bank.creditcard.exception.DateInvalidException;
+import com.bank.creditcard.exception.InsufficientBalanceException;
 import com.bank.creditcard.exception.UnderAgeException;
+import com.bank.creditcard.service.CardService;
 import com.bank.creditcard.service.RegistrationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,9 @@ public class CardControllerTest {
 	@Mock
 	RegistrationService registrationService;
 	
+	@Mock
+	CardService cardService;
+	
 	static RegistrationResponseDto registrationResponseDto =new RegistrationResponseDto();
 	static RegistrationRequestDto registrationRequestDto=new RegistrationRequestDto();
 	
@@ -41,7 +46,7 @@ public class CardControllerTest {
 	
 	@Test
 	public void testRegisterPositive() throws UnderAgeException {
-		log.info("testRegisterPositive");
+		log.info("Entering into testRegisterPositive");
 		Mockito.when(registrationService.register(registrationRequestDto)).thenReturn(registrationResponseDto);
 		Integer result = cardController.register(registrationRequestDto).getStatusCodeValue();
 		assertEquals(200, result);
@@ -49,10 +54,26 @@ public class CardControllerTest {
 	
 	@Test
 	public void testRegisterNegative() throws UnderAgeException {
-		log.info("testRegisterNegative");
+		log.info("Entering into testRegisterNegative");
 		Mockito.when(registrationService.register(registrationRequestDto)).thenReturn(registrationResponseDto);
 		ResponseEntity<RegistrationResponseDto> registrationResponseDto = cardController.register(registrationRequestDto);
 		Assert.assertNotNull(registrationResponseDto);
+	}
+	
+	@Test
+	public void testCardDetailsPositive() throws DateInvalidException, InsufficientBalanceException {
+		log.info("Entering into testCardDetailsPositive");
+		Mockito.when(cardService.getCardDetails(1L, 123, 123.4)).thenReturn(true);
+		Boolean result=cardController.cardDetails(1L, 123, 123.4);
+		assertEquals(true, result);
+	}
+	
+	@Test
+	public void testCardDetailsNegative() throws DateInvalidException, InsufficientBalanceException {
+		log.info("Entering into testCardDetailsNegative");
+		Mockito.when(cardService.getCardDetails(1L, 123, 123.4)).thenReturn(false);
+		Boolean result=cardController.cardDetails(1L, 123, 123.4);
+		assertEquals(false, result);
 	}
 
 }
