@@ -12,7 +12,7 @@ public class TransactionSummary {
 	private Long transactionId;
 	private String transactionType;
 	private Double transactionAmount;
-	private LocalDateTime transactionTime;
+	private String transactionTime;
 	private String transactionStatus;
 	private String transactionComments;
 	private Double availableBalance;

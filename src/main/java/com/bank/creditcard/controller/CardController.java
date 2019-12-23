@@ -19,6 +19,7 @@ import com.bank.creditcard.constants.ApplicationConstants;
 import com.bank.creditcard.dto.RegistrationRequestDto;
 import com.bank.creditcard.dto.RegistrationResponseDto;
 import com.bank.creditcard.exception.DateInvalidException;
+import com.bank.creditcard.exception.InsufficientBalanceException;
 import com.bank.creditcard.exception.UnderAgeException;
 import com.bank.creditcard.service.CardService;
 import com.bank.creditcard.service.RegistrationService;
@@ -62,14 +63,15 @@ public class CardController {
 	 * @param cardNumber
 	 * @param cvv
 	 * @param price
-	 * @return
+	 * @return true/false
 	 * @throws DateInvalidException
+	 * @throws InsufficientBalanceException
 	 */
 	@GetMapping
 	public Boolean cardDetails(@RequestParam Long cardNumber, @RequestParam Integer cvv, @RequestParam Double price)
-			throws DateInvalidException {
-		Boolean response = cardService.getCardDetails(cardNumber, cvv, price);
-		return response;
+			throws DateInvalidException, InsufficientBalanceException {
+		return cardService.getCardDetails(cardNumber, cvv, price);
+
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.bank.creditcard.service;
 
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -92,13 +94,14 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new NoTransactionException("No Transactions Found");
 		}
 
-		List<TransactionSummary> transactionSummaryList = new ArrayList<>();
-
+		List<TransactionSummary> transactionSummaryList = new ArrayList<>();		
 		transactionResponse.get().forEach(transaction -> {
 			if (transaction.getTransactionTime().getMonthValue() == month
 					&& transaction.getTransactionTime().getYear() == year) {
 				TransactionSummary transactionSummary = new TransactionSummary();
 				BeanUtils.copyProperties(transaction, transactionSummary);
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ApplicationConstants.DATE_PATTERN);
+				transactionSummary.setTransactionTime(simpleDateFormat.format(new Date()));
 				transactionSummaryList.add(transactionSummary);
 			}
 		});
