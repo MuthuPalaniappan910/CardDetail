@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
-	
+
 	@ExceptionHandler(value = UserException.class)
 	public ResponseEntity<ErrorResponse> handleException(UserException exception) {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
@@ -27,6 +27,18 @@ public class GlobalExceptionHandler {
 	}
 	@ExceptionHandler(value = NoTransactionException.class)
 	public ResponseEntity<ErrorResponse> handleException(NoTransactionException exception) {
+		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(value = DateInvalidException.class)
+	public ResponseEntity<ErrorResponse> handleException(DateInvalidException exception) {
+		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = InsufficientBalanceException.class)
+	public ResponseEntity<ErrorResponse> handleException(InsufficientBalanceException exception) {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}

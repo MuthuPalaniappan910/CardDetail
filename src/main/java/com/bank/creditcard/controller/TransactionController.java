@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,28 +20,37 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Chethana
- * This class is contains the operations related to credit card transactions
+ * @author Muthu This class is contains the operations related to credit card
+ *         transactions.Used for adding transaction and getting transaction
+ *         history
+ * 
  */
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 @RestController
 @RequestMapping("/transactions")
 @Slf4j
 public class TransactionController {
-
 	@Autowired
 	TransactionService transactionService;
 
 	/**
-	 * This method is used to get monthly transactions of the credit card for a
-	 * particular year
+	 * *
 	 * 
-	 * @author chethana
-	 * @param month        is of integer dataType
-	 * @param year         is of integer dataType
-	 * @param creditCardId is of long dataType
-	 * @return TransactionResponseDto returns a list of transaction summary
+	 * @author Muthu
 	 * 
+	 *         Method is used to add transaction based on card number
+	 * 
+	 * @param cardNumber
+	 * @param price
+	 * @return
 	 */
+	@PostMapping
+	public Boolean addTransaction(@RequestParam Long cardNumber, @RequestParam Double price) {
+		log.info("Adding transaction");
+		Boolean response = transactionService.addTransaction(cardNumber, price);
+		return response;
+	}
+
 	@GetMapping
 	public ResponseEntity<TransactionResponseDto> getMonthlyStatement(@RequestParam int month, @RequestParam int year,
 			@RequestParam Long creditCardId) {
@@ -57,5 +67,4 @@ public class TransactionController {
 		transactionResponseDto.setStatusCode(HttpStatus.OK.value());
 		return new ResponseEntity<>(transactionResponseDto, HttpStatus.OK);
 	}
-
 }
