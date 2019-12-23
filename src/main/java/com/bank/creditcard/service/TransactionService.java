@@ -1,5 +1,7 @@
 package com.bank.creditcard.service;
 
-public class TransactionService {
+import com.bank.creditcard.dto.TransactionResponseDto;
 
+public interface TransactionService {
+	public TransactionResponseDto getMonthlyStatement(int month,int year,Long creditCardId);
 }

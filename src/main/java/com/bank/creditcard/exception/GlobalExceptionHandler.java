@@ -25,5 +25,10 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(value = NoTransactionException.class)
+	public ResponseEntity<ErrorResponse> handleException(NoTransactionException exception) {
+		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
 
 }
