@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RegistrationResponseDto {
-	private String message;
-	private Integer statusCode;
+public class LoginRequestDto {
+
+	private String customerEmail;
 	private String password;
-	private String customerId;
 }

@@ -9,8 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
-	@ExceptionHandler(value = GeneralException.class)
-	public ResponseEntity<ErrorResponse> handleException(GeneralException exception) {
+	@ExceptionHandler(value = UnderAgeException.class)
+	public ResponseEntity<ErrorResponse> handleException(UnderAgeException exception) {
+		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = UserException.class)
+	public ResponseEntity<ErrorResponse> handleException(UserException exception) {
 		ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}

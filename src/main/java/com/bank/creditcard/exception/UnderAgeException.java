@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GeneralException extends Exception{
+public class UnderAgeException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 
-	public GeneralException(String s) {
+	public UnderAgeException(String s) {
 		super(s);
 	}
 }
