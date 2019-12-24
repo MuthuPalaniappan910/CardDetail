@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.bank.creditcard.dto.LoginRequestDto;
 import com.bank.creditcard.dto.LoginResponseDto;
+import com.bank.creditcard.exception.UserException;
 import com.bank.creditcard.service.LoginService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class LoginControllerTest {
 	}
 
 	@Test
-	public void testLoginPositive() {
+	public void testLoginPositive() throws UserException {
 		log.info("Login Positive");
 		Mockito.when(loginService.login(loginRequestDto)).thenReturn(loginResponseDto);
 		Integer result = loginController.login(loginRequestDto).getStatusCodeValue();
@@ -47,7 +48,7 @@ public class LoginControllerTest {
 	}
 
 	@Test
-	public void testCustomerLoginNegative() {
+	public void testCustomerLoginNegative() throws UserException {
 		log.info("Login Negative");
 		Mockito.when(loginService.login(loginRequestDto)).thenReturn(null);
 		ResponseEntity<LoginResponseDto> loginResponse = loginController.login(loginRequestDto);

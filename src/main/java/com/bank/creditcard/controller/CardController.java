@@ -26,6 +26,13 @@ import com.bank.creditcard.service.RegistrationService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This class is used to perform all the operations related to the credit card
+ * of the particular bank like registration
+ * 
+ * @author Chethana
+ * 
+ **/
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 @RestController
 @RequestMapping("/cards")
@@ -38,6 +45,17 @@ public class CardController {
 	@Autowired
 	CardService cardService;
 
+	/**
+	 * This Method allows the end user to provide his basic details and register a
+	 * new credit card
+	 * 
+	 * @author Chethana
+	 * @param registrationRequestDto contains the basic details from used to claim
+	 *                               credit card
+	 * @return RegistrationResponseDto returns success/failure along with the
+	 *         created credit card account login details
+	 * @throws UnderAgeException thrown when the user is below 23 years
+	 */
 	@PostMapping
 	public ResponseEntity<RegistrationResponseDto> register(
 			@Valid @RequestBody RegistrationRequestDto registrationRequestDto) throws UnderAgeException {
