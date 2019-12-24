@@ -29,10 +29,10 @@ public class LoginServiceImpl implements LoginService {
 
 	/**
 	 * @author Chethana
-	 * @Description This method is used for user to login with valid credentials
+	 * This method is used for user to login with valid credentials
 	 * @param loginRequestdto
 	 * @return LoginResponsedto
-	 * @exception LOGIN_ERROR
+	 * @exception LOGIN_ERROR thrown when the login credentials are incorrect
 	 */
 	public LoginResponseDto login(LoginRequestDto loginRequestdto) throws UserException {
 		log.info("Entering into login() method of LoginServiceImpl");
@@ -47,11 +47,12 @@ public class LoginServiceImpl implements LoginService {
 		loginResponsedto.setCustomerID(customerResponse.get().getCustomerId());
 		Optional<Card> cardResponse= cardRepository.findByCustomerId(customerResponse.get());
 		if(!cardResponse.isPresent()) {
-			loginResponsedto.setLoginType("shopping");
+			log.debug("Entered into the login() method where the user has no credit card");
+			loginResponsedto.setLoginType(ApplicationConstants.SHOPPING_CONSTANT);
 			return loginResponsedto;	
 		}
 	
-		loginResponsedto.setLoginType("credit");
+		loginResponsedto.setLoginType(ApplicationConstants.CREDIT_CONSTANT);
 		loginResponsedto.setCreditCardId(cardResponse.get().getCardNumber());
 		return loginResponsedto;
 	}

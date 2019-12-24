@@ -26,4 +26,11 @@ public class ApplicationConstants {
 	public static final String INSUFFICICENTBALANCE = "You don't have a sufficient balance to proceed with transaction";
 	public static final String TRANSACTIONCOMMENTS="shopping";
 	public static final String DEBIT_MESSAGE="Debit";
+	public static final String DATE_PATTERN="yyyy-MM-dd HH:mm:ss";
+	
+	public static final String SHOPPING_CONSTANT="shopping";
+	public static final String CREDIT_CONSTANT="credit";
+	
+	
+	
 }

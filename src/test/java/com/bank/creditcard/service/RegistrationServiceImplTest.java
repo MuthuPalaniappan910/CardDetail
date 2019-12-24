@@ -2,14 +2,15 @@ package com.bank.creditcard.service;
 
 import java.time.LocalDate;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.bank.creditcard.constants.ApplicationConstants;
 import com.bank.creditcard.dto.RegistrationRequestDto;
 import com.bank.creditcard.dto.RegistrationResponseDto;
 import com.bank.creditcard.entity.Card;
@@ -18,51 +19,66 @@ import com.bank.creditcard.exception.UnderAgeException;
 import com.bank.creditcard.repository.CardRepository;
 import com.bank.creditcard.repository.CustomerRepository;
 
+
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class RegistrationServiceImplTest {
-	
 	@InjectMocks
-	RegistrationServiceImpl registrationServiceImpl;
-	
-	@Mock
-	CardRepository cardRepository;
+	RegistrationServiceImpl registrationService;
 	
 	@Mock
 	CustomerRepository customerRepository;
 	
-	RegistrationRequestDto registrationRequestDto=new RegistrationRequestDto();
-	Card card= new Card();
-	Customer customer= new Customer();
-	RegistrationResponseDto registrationResponseDto= new RegistrationResponseDto();
+	@Mock
+	CardRepository cardRepository;
 	
+	Customer customer= new Customer();
+	Card card= new Card();
+	RegistrationRequestDto registrationRequestDto= new RegistrationRequestDto();
 	
 	@Before
-	public void setUp() {
-		registrationRequestDto.setDateOfBirth(LocalDate.of(2018, 8, 25));
-		registrationRequestDto.setCustomerEmail("hema");
-		registrationRequestDto.setFirstName("test");
-		registrationRequestDto.setCardBalance(546.7);
-		registrationRequestDto.setGender("female");
-		registrationRequestDto.setLastName("test");
-		registrationRequestDto.setMobile(9876543210L);
-		registrationRequestDto.setProfession("Doctor");
-		registrationRequestDto.setSalary(89.9);
+	public void setup() {
+		customer.setCustomerEmail("a@gmail.com");
 		customer.setCustomerId(1L);
-		customer.setCustomerEmail("hema");
-		customer.setPassword("555");
-		card.setCardType(ApplicationConstants.TYPE);
-		card.setCustomerId(customer);
-		card.setCvv(655);
-		card.setValidFrom(LocalDate.now());
-		card.setValidTo(LocalDate.now().plusMonths(ApplicationConstants.VALID_MONTHS));
-		registrationResponseDto.setCustomerId(customer.getCustomerEmail());
-		registrationResponseDto.setPassword(customer.getPassword());
-	}
-	
-	@Test(expected = UnderAgeException.class)
-	public void testRegisterNegative() throws UnderAgeException {
-		registrationServiceImpl.register(registrationRequestDto);
+		customer.setDateOfBirth(LocalDate.now());
+		customer.setFirstName("c");
+		customer.setGender("female");
+		customer.setLastName("m");
+		customer.setMobile(123L);
+		customer.setPassword("abc");
+		customer.setProfession("se");
+		customer.setSalary(1000.00);
 		
+		
+		card.setCardBalance(1000.00);
+		card.setCardNumber(1L);
+		card.setCardType("credit");
+		card.setCustomerId(customer);
+		card.setCvv(124);
+		card.setValidFrom(LocalDate.now());
+		card.setValidTo(LocalDate.now().plusDays(2));
+		
+		registrationRequestDto.setCardBalance(1000.00);
+		registrationRequestDto.setCustomerEmail("a@gmail.com");
+		registrationRequestDto.setDateOfBirth(LocalDate.now());
+		registrationRequestDto.setFirstName("c");
+		registrationRequestDto.setGender("female");
+		registrationRequestDto.setLastName("m");
+		registrationRequestDto.setMobile(123L);
+		registrationRequestDto.setProfession("se");
+		registrationRequestDto.setSalary(1000.00);
+	}
+
+	@Test(expected=UnderAgeException.class)
+	public void testRegisterAgeValidationNegative() throws UnderAgeException {
+		registrationService.register(registrationRequestDto);
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testRegister() throws UnderAgeException {
+		registrationRequestDto.setDateOfBirth(LocalDate.now().minusYears(25));
+		Mockito.when(customerRepository.save(customer)).thenReturn(customer);
+		Mockito.when(cardRepository.save(card)).thenReturn(card);
+		RegistrationResponseDto registrationResponseDto=registrationService.register(registrationRequestDto);
+		Assert.assertNotNull(registrationResponseDto);
+	}
 }
