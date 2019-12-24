@@ -22,9 +22,6 @@ import com.bank.creditcard.exception.NoTransactionException;
 import com.bank.creditcard.repository.CardRepository;
 import com.bank.creditcard.repository.TransactionRepository;
 
-
-
-
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class TransactionServiceImplTest {
 	
